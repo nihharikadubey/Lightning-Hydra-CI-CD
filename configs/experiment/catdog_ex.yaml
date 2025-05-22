@@ -1,0 +1,57 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=catdog_ex
+# to evaluate the model run:
+# python eval.py experiment=catdog_ex ckpt_path=/path/to/checkpoint.ckpt
+# to run inference:
+# python infer.py experiment=catdog_ex ckpt_path=/path/to/checkpoint.ckpt
+
+defaults:
+  - override /data: catdog
+  - override /model: timm_classify
+  - override /callbacks: default
+  - override /logger: default
+  - override /trainer: default
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+seed: 42
+
+data:
+  batch_size: 64
+  num_workers: 0
+  pin_memory: True
+
+model:
+  # model
+  base_model: resnet18
+  num_classes: 2
+  lr: 1e-3
+
+trainer:
+  min_epochs: 1
+  max_epochs: 2
+
+callbacks:
+  model_checkpoint:
+    monitor: "val/acc"
+    mode: "max"
+    save_top_k: 1
+    save_last: True
+
+  early_stopping:
+    monitor: "val/acc"
+    patience: 10
+    mode: "max"
+
+# Evaluation specific settings
+eval:
+  ckpt_path: null  # Set this to the path of the checkpoint you want to evaluate
+
+# Inference specific settings
+infer:
+  input_folder: ${paths.data_dir}/Inference
+  output_folder: ${paths.output_dir}/predictions
+  ckpt_path: null  # Set this to the path of the checkpoint you want to use for inference

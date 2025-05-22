@@ -1,0 +1,32 @@
+# @package _global_
+
+# specify here default configuration
+# order of defaults determines the order in which configs override each other
+defaults:
+  - _self_
+  - data: catdog
+  - model: timm_classify
+  - callbacks: default
+  - logger: null # set logger here or use command line (e.g. `python infer.py logger=tensorboard`)
+  - trainer: default
+  - paths: default
+  - hydra: default
+  - experiment: null
+  - debug: null
+
+task_name: "infer"
+
+# tags to help you identify your experiments
+# you can overwrite this in experiment configs
+# overwrite from command line with `python infer.py tags="[first_tag, second_tag]"`
+tags: ["inference"]
+
+# Inference specific settings
+input_folder: ${paths.data_dir}/Inference
+output_folder: ${paths.output_dir}/predictions
+
+# Checkpoint path for inference
+ckpt_path: null
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: null

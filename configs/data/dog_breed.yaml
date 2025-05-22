@@ -1,0 +1,8 @@
+_target_: src.datamodules.dog_breed_datamodule.DogBreedImageDataModule
+
+data_dir: ${paths.data_dir}
+num_workers: 4
+batch_size: 32
+splits: [0.8, 0.1, 0.1]
+pin_memory: true
+
